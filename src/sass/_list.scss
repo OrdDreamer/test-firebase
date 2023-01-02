@@ -1,0 +1,14 @@
+.main-list {
+  list-style: none;
+  width: 400px;
+  margin: 30px auto 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.main-list-item {
+  border: 2px dotted darkslategray;
+  padding: 20px;
+}
