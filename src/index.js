@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set, push, onValue } from "firebase/database";
-import firebase from 'firebase/compat';
+import { getDatabase, ref, push, onValue } from "firebase/database";
+import { userSignIn, userSignOut } from './auth';
+import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDzrIjxMANcnuFMVxmD7t6ueqbK3ijInpU",
@@ -12,8 +13,9 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getDatabase();
-// const db = getDatabase(app);
+const db = getDatabase(app);
+
+
 
 
 
@@ -43,26 +45,6 @@ elements.form.addEventListener("submit", (e) => {
 
 
 
-
-
-
-
-
-
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-
-const provider = new GoogleAuthProvider();
-let user = null;
-
-const auth = getAuth();
-signInWithPopup(auth, provider)
-  .then((result) => {
-    user = result.user;
-    readData();
-  }).catch((error) => {
-    console.error("Сталася помилка, спробуйте, будь ласка, ще раз.")
-});
-
 function readData() {
   const starCountRef = ref(db, 'users/' + user.uid + "/library");
   onValue(starCountRef, (snapshot) => {
@@ -83,3 +65,19 @@ function readData() {
     console.log("Read => Done!");
   });
 }
+
+
+const auth = getAuth();
+auth.onAuthStateChanged(() => {
+  console.log("###")
+  console.log(auth.currentUser)
+  console.log("###")
+})
+
+
+document.querySelector("#log-in").addEventListener("click", userSignIn);
+document.querySelector("#log-out").addEventListener("click", userSignOut);
+
+
+
+
